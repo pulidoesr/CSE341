@@ -1,14 +1,29 @@
 const express = require('express');
 const app = express();
 const path = require('path');
+const { initDb} = require('./models/connect');
 
 app.use('/', require('./routes'));
+app.use(express.json());
+
 // Serve the frontend folder
 app.use(express.static(path.join(__dirname, './cse341-ww-student-code/frontend')));
 
-
 const port = 8080;
 
-app.listen(process.env.port || port);
-console.log('Web Server is listening at port' + (process.env.port || port));
+initDb((err, db) => {
+  if (err) {
+    console.error('Database connection failed:', err);
+  } else {
+    console.log('Database connected successfully');
+
+    app.listen(port, () => {
+      console.log(`Server is running on http://localhost:${port}`);
+    });
+  }
+});
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, './cse341-ww-student-code/frontend/index.html'));
+});
 
