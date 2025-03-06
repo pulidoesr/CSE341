@@ -10,7 +10,7 @@ async function apiFetch(url) {
 
 const getData = async () => {
   // const data = await apiFetch('http://localhost:8080/professional');
-  const data = await apiFetch('https://cse341-fq21.onrender.com//professional');
+  const data = await apiFetch('https://cse341-fq21.onrender.com/professional');
   console.log(data);
   displayAllData(data[0]);
 };
